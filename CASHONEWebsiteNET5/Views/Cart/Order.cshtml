@@ -1,0 +1,411 @@
+﻿@model Application.Models.Cart.OrderViewModel
+@{
+    ViewData["Title"] = "Order Page";
+}
+
+@section ColumnContentTitle {
+    <h1 class="my-4">Order</h1>
+}
+
+@section Carousel {
+
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start">
+        <h1>Place Order</h1>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end desktop">
+        <button data-bind='click: function() { window.open("/cart/index", "_self"); }' class='btn btn-primary m-1' type='button' title='Open cart page'><span>Back to Cart</span></button>
+    </div>
+</div>
+
+<div class="row m-0 pt-2 pb-4" data-bind="with: getReferentialView('order-view').getObserverObject()">
+    <div class="card container p-0">
+        <div class="card-header table-result-message">
+            <span data-bind="visible: getProcessing()"><i class="fa fa-cog fa-spin fa-1x"></i></span>
+            <span data-bind="if: getResultMessage().length > 0"><span data-bind="text: getResultMessage()"></span></span>
+            <div data-bind="if: getErrors().length > 0">
+                <ul class="errorlist p-0" data-bind="foreach: { data: getObservableErrors(), as: 'error' }">
+                    <li><span data-bind="text: errMessage"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body" data-bind="with: FormObject()">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Title">
+                        Order Title
+                    </label>
+                    <input class="form-control col-12" data-bind="value: Title" id="Title" type="text" title="Order Title"
+                           maxlength="100" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: Title"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Company">
+                        Company / Name
+                    </label>
+                    <input class="form-control col-12" data-bind="value: Company" id="Company" type="text" title="Company / Name"
+                           maxlength="100" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: Company"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Address">
+                        Address
+                    </label>
+                    <textarea data-bind="value: Address" id="Address" type="text" title="Address"
+                              maxlength="200" placeholder="" rows="2" class="form-control col-12"></textarea><span class="error"
+                                                                                                                   data-bind="validationMessage: Address"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-4 col-lg-4 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="City">
+                        City
+                    </label>
+                    <input class="form-control col-12" data-bind="value: City" id="City" type="text" title="City"
+                           maxlength="100" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: City"></span>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 order-1">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Country">
+                        Country
+                    </label>
+                    <input class="form-control col-12" data-bind="value: Country" id="Country" type="text" title="Country"
+                           maxlength="100" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: Country"></span>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 order-2">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="PostalCode">
+                        Postal Code
+                    </label>
+                    <input class="form-control col-12" data-bind="value: PostalCode" id="PostalCode" type="text" title="Postal Code"
+                           maxlength="10" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: PostalCode"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Email">
+                        Email
+                    </label>
+                    <input class="form-control col-12" data-bind="value: Email" id="Email" type="text" title="Email"
+                           maxlength="127" placeholder="" /><span class="error"
+                                                                  data-bind="validationMessage: Email"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="Cell">
+                        Cell
+                    </label>
+                    <input class="form-control col-12" data-bind="value: Cell" id="Cell" type="text" title="Cell"
+                           maxlength="15" placeholder="" /><span class="error"
+                                                                 data-bind="validationMessage: Cell"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 order-0">
+                    <h5 class="p-1">Payment Mode:</h5>
+                    <input id="PaymentModeCOD" name="PaymentMode" type="radio" title="Cash On Delivery" value="COD" checked />
+                    <label for="PaymentModeCOD">Cash On Delivery</label>
+                    <input id="PaymentModeBank" name="PaymentMode" type="radio" title="Bank Transfer" value="Bank" />
+                    <label for="PaymentModeBank">Bank Transfer</label>
+                    @*<input id="PaymentModeCreditCard" name="PaymentMode" type="radio" title="Credit Card" value="CreditCard" />
+                <label for="PaymentModeCreditCard">Credit Card</label>*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 order-0">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="SecretWord">
+                        Secret Word
+                    </label>
+                    <input class="form-control col-12" data-bind="value: SecretWord" id="SecretWord" type="password" title="Secret Word"
+                           maxlength="20" placeholder="" required /><span class="error"
+                                                                          data-bind="validationMessage: SecretWord"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 order-1">
+                    <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="ConfirmSecretWord">
+                        Confirm
+                    </label>
+                    <input class="form-control col-12" data-bind="value: ConfirmSecretWord" id="ConfirmSecretWord" type="password" title="Confirm Secret Word"
+                           maxlength="20" placeholder="" required /><span class="error"
+                                                                          data-bind="validationMessage: ConfirmSecretWord"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row mt-1 mb-1">
+                <div class='col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center'>
+                    <button data-bind='click: function() { window.open("/cart/index", "_self"); }' class='btn btn-primary m-1' type='button' title='Cancel'><span>Cancel</span></button>
+                    <button data-bind='click: function() { PlaceOrder(); }' class='btn btn-primary m-1' type='button' title='Place Order'><span>Place Order</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row m-0 pt-2 pb-4">
+    <div class="card container p-0">
+        <div class="card-header table-result-message">
+            <span data-bind="visible: getProcessing()"><i class="fa fa-cog fa-spin fa-1x"></i></span>
+            <span data-bind="if: getResultMessage().length > 0"><span data-bind="text: getResultMessage()"></span></span>
+            <div data-bind="if: getErrors().length > 0">
+                <ul class="errorlist p-0" data-bind="foreach: { data: getObservableErrors(), as: 'error' }">
+                    <li><span data-bind="text: errMessage"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mt-1 mb-1">
+                <div class='col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start'>
+                    <h3>Cart Items</h3>
+                </div>
+                <div class='col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end'>
+                    <button data-bind='click: function() { list(1); }' class='btn btn-primary m-1' type='button' title='List cart items'><span>Reload Cart Items</span></button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-style-simple">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-12 col-md-2 col-lg-2">
+                                <span title="Product">Product</span>
+                            </th>
+                            <th class="col-sm-12 col-md-4 col-lg-4">
+                                <span title="Code & Title">Code &amp; Title</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                                <span title="Quantity">Quantity</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                                <span title="Price">Price</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                                <span title="Line Total">Total</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: { data: getObservableRecords(), as: 'record' }">
+                        <tr>
+                            <td><a href="#" data-bind="attr: { href: '/home/product/' + ItemCode() }"><img class="img-fluid store-grid-picture" data-bind="attr: { src: PicturePath(), title: ItemCode() + ' - ' + ItemName() }" /></a></td>
+                            <td class="pt-4" data-bind="text: ItemCode() + ' - ' + ItemName()"></td>
+                            <td class="pt-4 text-center" data-bind="text: Quantity()"></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + ((Cost() === null || Cost() === undefined) ? '0.00' : Cost().toFixed(2)) "></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + ((LineTotal() === null || LineTotal() === undefined) ? '0.00' : LineTotal().toFixed(2)) "></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + $root.GrandTotal().toFixed(2)"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start order-0">
+                    <div class="input-group">
+                        <span class="input-group-prepend">
+                            <span class="input-group-text table-list-size-label">List Size</span>
+                        </span>
+                        <select class="form-control col-2 p-0" data-bind="value: getObservableListSize(), event: {change: function() { $parents[0].list(1); }}" style="width:auto;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end order-1">
+                    <div class="input-group" data-bind="if: getListNavigator().calculateTotalPages() > 1">
+                        <nav class="d-flex justify-content-end" aria-label="Listings">
+                            <ul class="pagination">
+                                <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() - 1); }">Previous</a></li>
+                                <!-- ko foreach: ListNavigator().getLists() -->
+                                <li class="page-item">
+                                    <a class="page-link" href="#" data-bind="click: function() { list(Number); }"><span data-bind="text: Number"></span></a>
+                                </li>
+                                <!-- /ko -->
+                                <li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() + 1); }">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section BodyContentProducts {
+}
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/model/Order.js"></script>
+    <script type="text/javascript" src="~/model/OrderItem.js"></script>
+
+    <script type="text/javascript">
+
+        var orderView = new CRUDView({
+            'key': 'order-view',
+            'uri': '/order', //service uri address
+            'observer': new CRUDObserver({ 'contentType': new Order({}), 'messages': new MessageRepository({ fill: true }) })
+        });
+
+        orderView.getObserverObject().ResultMessage("Fill in following form and press \"Place Order\" button.");
+
+        orderView.getObserverObject().PlaceOrder = function () {
+
+            if (orderView.getObserverObject().validateFormObject()) {
+
+                if (orderView.getObserverObject().FormObject().SecretWord() !== orderView.getObserverObject().FormObject().ConfirmSecretWord()) {
+
+                    orderView.getObserverObject().FormObject().SecretWord("");
+                    orderView.getObserverObject().FormObject().ConfirmSecretWord("");
+                    orderView.getObserverObject().validateFormObject();
+
+                    alert("Secret and confirm secret word are required and must match. Please correct your input and try again.");
+
+                    return;
+                }
+                
+                var paymentModes = document.getElementsByName('PaymentMode');
+                var selectedMode = "COD";
+                for (var j = 0; j < paymentModes.length; j++) {
+
+                    if (paymentModes[j].checked) {
+                        selectedMode = paymentModes[j].value;
+                        break;
+                    }
+                }
+
+                (orderView.getObserverObject().FormObject()).Status("Placed");
+                (orderView.getObserverObject().FormObject()).OrderType("Sales Order " + selectedMode);
+
+                if (layoutView.getObserverObject().Records().length > 0) {
+
+                    (orderView.getObserverObject().FormObject()).OrderItems = [];
+                    for (var i = 0; i < layoutView.getObserverObject().Records().length; i++) {
+
+                        (orderView.getObserverObject().FormObject()).OrderItems.push(layoutView.getObserverObject().Records()[i]);
+                    }
+                    orderView.create();
+                }
+                else {
+
+                    orderView.getObserverObject().ResultMessage("Cart is empty. Select cart items and then place your order.");
+                }
+            }
+        };
+
+        orderView.getObserverObject().OnPlacingOrder = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+
+                if (eventData.request !== null && eventData.request !== undefined) {
+
+                    if (eventData.request === 'create') {
+
+                        orderView.getObserverObject().ResultMessage("Order placed successfully.");
+                        window.open("/order/verify/" + orderView.getCRUDProcessor().Record.OrderNo(), "_self");
+                    }
+                }
+            }
+        };
+
+        orderView.subscribeEvent('record.after.rendering.view.CRUD.WindnTrees', orderView.getObserverObject().OnPlacingOrder);
+
+
+        layoutView.getObserverObject().PlaceOrderAction = ko.observable(true);
+        layoutView.getObserverObject().EmptyCartAction = ko.observable(true);
+        layoutView.getObserverObject().GrandTotal = ko.observable(0);
+
+        layoutView.getObserverObject().OnCartAction = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+
+                if (eventData.data !== null && eventData.data !== undefined) {
+
+                    if (eventData.data.target !== null && eventData.data.target !== undefined) {
+
+                        if (eventData.data.target === 'EmptyCart') {
+
+                            layoutView.getObserverObject().ResultMessage("Cart is empty.");
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+
+                            layoutView.getObserverObject().clearRecords();
+                        }
+                    }
+                }
+
+                if (eventData.request !== null && eventData.request !== undefined) {
+
+                    if (eventData.request === 'delete') {
+
+                        if (layoutView.getObserverObject().Records().length === 0) {
+
+                            layoutView.getObserverObject().ResultMessage("Cart is empty.");
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+                        }
+                    }
+                }
+            }
+
+            layoutView.getObserverObject().CalculateGrandTotal();
+        };
+
+        layoutView.getObserverObject().OnListCartAction = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+
+                if (eventData.request !== null && eventData.request !== undefined) {
+
+                    if (eventData.request === 'list') {
+
+                        if (layoutView.getObserverObject().Records().length > 0) {
+
+                            layoutView.getObserverObject().PlaceOrderAction(true);
+                            layoutView.getObserverObject().EmptyCartAction(true);
+
+                            layoutView.getObserverObject().CalculateGrandTotal();
+                        }
+                        else {
+
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+                        }
+                    }
+                }
+            }
+        };
+
+        layoutView.getObserverObject().CalculateGrandTotal = function () {
+
+            var grandTotal = 0;
+            for (var i = 0; i < layoutView.getObserverObject().Records().length; i++) {
+
+                grandTotal += (layoutView.getObserverObject().Records()[i]).LineTotal();
+            }
+
+            layoutView.getObserverObject().GrandTotal(grandTotal);
+        };
+
+        layoutView.subscribeEvent('record.after.rendering.view.CRUD.WindnTrees', layoutView.getObserverObject().OnCartAction);
+        layoutView.subscribeEvent('records.after.rendering.view.CRUD.WindnTrees', layoutView.getObserverObject().OnListCartAction);
+
+        layoutView.getReferentialViews().newItem({ 'object': orderView });
+
+        $(function () {
+            layoutView.list(1);
+        });
+    </script>
+}

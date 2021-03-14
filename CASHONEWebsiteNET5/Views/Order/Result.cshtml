@@ -1,0 +1,84 @@
+﻿@model Application.Models.Cart.OrderResultViewModel
+
+@{
+    Layout = "_LayoutReport";
+}
+
+@section Carousel {
+
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <h1>Order Receipt</h1>
+        <h6>Order No. @Model.Order.OrderNo</h6>
+    </div>
+</div>
+<div class="row m-0 pt-2 pb-4">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <h2>@Model.Order.Title</h2>
+        <h4>@Model.Order.Company</h4>
+        <p class="pb-0 mb-0">@Model.Order.Address @Model.Order.City @Model.Order.Country @Model.Order.PostalCode</p>
+        <p class="p-0 m-0">@Model.Order.Email @Model.Order.Cell</p>
+        <p class="d-flex justify-content-start p-0 m-0">Payment Mode: @Model.Order.OrderType</p>
+    </div>
+</div>
+<div class="row m-0 pt-2 pb-4">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-hover table-style-simple">
+                <thead>
+                    <tr>
+                        <th class="col-sm-12 col-md-4 col-lg-4">
+                            <span title="Code & Title">Product Code &amp; Title</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                            <span title="Quantity">Quantity</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                            <span title="Price">Price</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                            <span title="Discount">Discount</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                            <span title="Line Total">Total</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderItem in Model.Order.OrderItems)
+                    {
+                    <tr>
+                        <td class="pt-4">@orderItem.ItemCode - @orderItem.ItemName</td>
+                        <td class="pt-4 text-right">@orderItem.Quantity</td>
+                        <td class="pt-4 text-right">@ViewData["CurrencySymbol"]@orderItem.Cost.ToString("0.00")</td>
+                        <td class="pt-4 text-right">@ViewData["CurrencySymbol"]@orderItem.ItemDiscount.ToString("0.00")</td>
+                        <td class="pt-4 text-right">@ViewData["CurrencySymbol"]@orderItem.LineTotal.ToString("0.00")</td>
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="pt-4 text-right">@ViewData["CurrencySymbol"]@Model.GrandTotal.ToString("0.00")</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <h4>Total Discount= @ViewData["CurrencySymbol"]@Model.DiscountTotal.ToString("0.00")</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <button data-bind='click: function() { window.print(); }' class='btn btn-primary m-1' type='button' title='Print Window'><span>Print</span></button>
+        <button data-bind='click: function() { window.close(); }' class='btn btn-primary m-1' type='button' title='Close Window'><span>Close</span></button>
+    </div>
+</div>
+
+@section BodyContentProducts {
+}

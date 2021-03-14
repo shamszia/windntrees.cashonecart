@@ -1,0 +1,23 @@
+﻿@model Application.Models.ProductViewModel
+@{
+    ViewData["Title"] = "Product Page";
+}
+
+@section ColumnContentTitle {
+    <h1 class="my-4">Product</h1>
+}
+
+<div class="card mt-4">
+    <div class="text-center p-2">
+        <img class="card-img-top img-fluid product-picture" src="@Model.Product.PicturePath" alt="">
+    </div>
+    <div class="card-body">
+        <h3 class="card-title">@Model.Product.Name</h3>
+        <h4>@ViewData["CurrencySymbol"] @Model.Product.FormattedPublishedPriceWith2DecimalPoints</h4>
+        <h3 class="pt-2">Product Description:</h3>
+        <p class="card-text product-description">@Model.Product.Description</p>
+    </div>
+</div>
+
+@section BodyContentProducts {
+}

@@ -1,0 +1,225 @@
+﻿@model Application.Models.Cart.CartViewModel
+@{
+    ViewData["Title"] = "My Shopping Cart Page";
+}
+
+@section ColumnContentTitle {
+    <h1 class="my-4">Shopping</h1>
+}
+
+@section Carousel {
+
+}
+
+<div class="row m-0 pt-2 pb-4">
+    <div class="card container p-0">
+        <div class="card-header table-result-message">
+            <span data-bind="visible: getProcessing()"><i class="fa fa-cog fa-spin fa-1x"></i></span>
+            <span data-bind="if: getResultMessage().length > 0"><span data-bind="text: getResultMessage()"></span></span>
+            <div data-bind="if: getErrors().length > 0">
+                <ul class="errorlist p-0" data-bind="foreach: { data: getObservableErrors(), as: 'error' }">
+                    <li><span data-bind="text: errMessage"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mt-1 mb-1">
+                <div class='col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start'>
+                    <button data-bind='click: function() { window.open("/product/index", "_self"); }' class='btn btn-primary m-1' type='button' title='Add new products in cart'><span>Add to Cart</span></button>
+                    <button data-bind='click: function() { window.open("/cart/order", "_self"); }, enable: PlaceOrderAction()' class='btn btn-primary m-1' type='button' title='Place order'><span>Place Order</span></button>
+                </div>
+                <div class='col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end'>
+                    <button data-bind='click: function() { if (confirm("Are you sure to empty cart?")) { EmptyCart(); } }, enable: EmptyCartAction()' class='btn btn-danger m-1' type='button' title='Empty cart'><span>Empty Cart</span></button>
+                    <button data-bind='click: function() { list(1); }' class='btn btn-primary m-1' type='button' title='List cart items'><span>List Cart</span></button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-style-simple">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-12 col-md-2 col-lg-2">
+                                <span title="Product">Product</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2">
+                                <span title="Code & Title">Code &amp; Title</span>
+                            </th>
+                            <th class="col-sm-12 col-md-1 col-lg-1 text-right">
+                                <span title="Quantity">Quantity</span>
+                            </th>
+                            <th class="col-sm-12 col-md-1 col-lg-1 text-right">
+                                <span title="Price">Price</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                                <span title="Update Quantity">Update Quantity</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2 text-right">
+                                <span title="Line Total">Total</span>
+                            </th>
+                            <th class="col-sm-12 col-md-2 col-lg-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: { data: getObservableRecords(), as: 'record' }">
+                        <tr>
+                            <td><a href="#" data-bind="attr: { href: '/home/product/' + ItemCode() }"><img class="img-fluid store-grid-picture" data-bind="attr: { src: PicturePath(), title: ItemCode() + ' - ' + ItemName() }" /></a></td>
+                            <td class="pt-4" data-bind="text: ItemCode() + ' - ' + ItemName()"></td>
+                            <td class="pt-4 text-center" data-bind="text: Quantity()"></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + ((Cost() === null || Cost() === undefined) ? '0.00' : Cost().toFixed(2)) "></td>
+                            <td><input class="form-control col-12 text-right" type="text" title="Update cart quantity" data-bind="value: Quantity" /></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + ((LineTotal() === null || LineTotal() === undefined) ? '0.00' : LineTotal().toFixed(2)) "></td>
+                            <td class="pr-0">
+                                <div class="row m-0">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 m-0 p-1 d-flex justify-content-end">
+                                        <button class="btn btn-secondary btn-sm m-1" data-bind="click: function(data, event) { $parents[0].UpdateCartItem(data); }">update</button>
+                                        <button class="btn btn-danger btn-sm m-1" data-bind="click: function(data, event) { if (confirm('Are you sure to remove (' + data.ItemCode() + ' ' + data.ItemName() + ') item from cart?')) { $parents[0].RemoveCartItem(data); } }">remove</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.QuantityTotal().toFixed(2)"></td>
+                            <td></td>
+                            <td></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.CurrencySymbol() + $root.GrandTotal().toFixed(2)"></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <h4 data-bind="text: '(Total Discount= ' + $root.CurrencySymbol() + $root.DiscountTotal().toFixed(2) + ')'"></h4>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start order-0">
+                    <div class="input-group">
+                        <span class="input-group-prepend">
+                            <span class="input-group-text table-list-size-label">List Size</span>
+                        </span>
+                        <select class="form-control col-2 p-0" data-bind="value: getObservableListSize(), event: {change: function() { $parents[0].list(1); }}" style="width:auto;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end order-1">
+                    <div class="input-group" data-bind="if: getListNavigator().calculateTotalPages() > 1">
+                        <nav class="d-flex justify-content-end" aria-label="Listings">
+                            <ul class="pagination">
+                                <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() - 1); }">Previous</a></li>
+                                <!-- ko foreach: ListNavigator().getLists() -->
+                                <li class="page-item">
+                                    <a class="page-link" href="#" data-bind="click: function() { list(Number); }"><span data-bind="text: Number"></span></a>
+                                </li>
+                                <!-- /ko -->
+                                <li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() + 1); }">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        layoutView.getObserverObject().PlaceOrderAction = ko.observable(true);
+        layoutView.getObserverObject().EmptyCartAction = ko.observable(true);
+        layoutView.getObserverObject().QuantityTotal = ko.observable(0);
+        layoutView.getObserverObject().GrandTotal = ko.observable(0);
+        layoutView.getObserverObject().DiscountTotal = ko.observable(0);
+
+
+        layoutView.getObserverObject().OnCartAction = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+
+                if (eventData.data !== null && eventData.data !== undefined) {
+
+                    if (eventData.data.target !== null && eventData.data.target !== undefined) {
+
+                        if (eventData.data.target === 'EmptyCart') {
+
+                            layoutView.getObserverObject().ResultMessage("Cart is empty.");
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+
+                            layoutView.getObserverObject().clearRecords();
+                        }
+                    }
+                }
+
+                if (eventData.request !== null && eventData.request !== undefined) {
+
+                    if (eventData.request === 'delete') {
+
+                        if (layoutView.getObserverObject().Records().length === 0) {
+
+                            layoutView.getObserverObject().ResultMessage("Cart is empty.");
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+                        }
+                    }
+                }
+            }
+
+            layoutView.getObserverObject().CalculateTotal();
+        };
+
+        layoutView.getObserverObject().OnListCartAction = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+
+                if (eventData.request !== null && eventData.request !== undefined) {
+
+                    if (eventData.request === 'list') {
+
+                        if (layoutView.getObserverObject().Records().length > 0) {
+
+                            layoutView.getObserverObject().PlaceOrderAction(true);
+                            layoutView.getObserverObject().EmptyCartAction(true);
+
+                            layoutView.getObserverObject().CalculateTotal();
+                        }
+                        else {
+
+                            layoutView.getObserverObject().PlaceOrderAction(false);
+                            layoutView.getObserverObject().EmptyCartAction(false);
+                        }
+                    }
+                }
+            }
+        };
+
+        layoutView.getObserverObject().CalculateTotal = function () {
+
+            var grandTotal = 0;
+            var quantityTotal = 0;
+            var discountTotal = 0;
+            for (var i = 0; i < layoutView.getObserverObject().Records().length; i++) {
+
+                grandTotal += (layoutView.getObserverObject().Records()[i]).LineTotal();
+                quantityTotal += (layoutView.getObserverObject().Records()[i]).Quantity();
+                discountTotal += ((layoutView.getObserverObject().Records()[i]).Quantity() * (layoutView.getObserverObject().Records()[i]).Discount());
+            }
+
+            layoutView.getObserverObject().GrandTotal(grandTotal);
+            layoutView.getObserverObject().QuantityTotal(quantityTotal);
+            layoutView.getObserverObject().DiscountTotal(discountTotal);
+        };
+        
+        layoutView.subscribeEvent('record.after.rendering.view.CRUD.WindnTrees', layoutView.getObserverObject().OnCartAction);
+        layoutView.subscribeEvent('records.after.rendering.view.CRUD.WindnTrees', layoutView.getObserverObject().OnListCartAction);
+
+        $(function () {
+            layoutView.list(1);
+        });
+    </script>
+}

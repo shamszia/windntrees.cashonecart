@@ -1,0 +1,57 @@
+﻿{
+  "authenticationMode": true,
+  "version": "4.0",
+  "cssClass": "container-fluid d-flex justify-content-end p-0",
+  "tag": "ul",
+  "attributes": [
+    {
+      "name": "class",
+      "value": "navbar-nav"
+    }
+  ],
+  "roles": [ "anonymous" ],
+  "items": [
+    {
+      "text": "My Cart",
+      "linkUrl": "/cart/index",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "My Shopping Cart"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Order History",
+      "linkUrl": "/order/verify",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Order History"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Contact",
+      "linkUrl": "/home/contact",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Contact"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    }
+  ]
+}

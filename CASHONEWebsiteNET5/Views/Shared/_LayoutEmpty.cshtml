@@ -1,0 +1,312 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Hosting;
+@using Microsoft.AspNetCore.Mvc;
+
+@inject IWebHostEnvironment ENV
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content-type="text/html; charset=UTF-8" />
+    <meta cache-control="no-store" />
+    <meta pragma="no-cache" />
+    <meta x-content-type-options="nosniff" />
+
+    <title>@ViewData["Title"] - CASHONE CART</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-grid-fix.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/cart.css" />
+    <link rel="stylesheet" href="~/css/cart-item.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="icon" href="@Url.Content("~/image/favicon.ico")">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a href="@Url.Action("index", "home")">
+                    <img src="@Url.Content("/image/cashone_48.png")" class="navbar-logo-image img-fluid" alt="CASHONE CART">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @Html.Raw(WindnTrees.Controls.Standard.Bootstrap.Navbar.NavigationComposer.composeFromJson(new string[] {
+                    ENV.ContentRootPath + "\\navigations\\navigation1.json",
+                    ENV.ContentRootPath + "\\navigations\\navigation2.json"
+                    },
+                    User.Identity.Name, new string[] { "role1", "role2" }, null, null, "4.0"))
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+
+                        @if (!IsSectionDefined("Carousel"))
+                        {
+                            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="carousel-item active">
+                                        <img class="d-block img-fluid m-auto" src="/image/slide/cashone.png" alt="CASHONE">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            @await RenderSectionAsync("Carousel", required: false)
+                        }
+
+                        @RenderBody()
+
+                        @if (!IsSectionDefined("BodyContentProducts"))
+                        {
+                            <div class="row">
+                                @foreach (var product in Model.Products)
+                                {
+                                    <div class="col-lg-4 col-md-6 mb-4">
+                                        <div class="card h-100">
+                                            <div class="text-center p-2">
+                                                <a href="/home/product/@product.Code" title="@product.Name"><img class="card-img-top img-fluid product-picture" src="@product.PicturePath" alt=""></a>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h4 class="card-title">
+                                                    <a href="/home/product/@product.Code" title="@product.Name">@product.Name</a>
+                                                </h4>
+                                                <p class="card-text">@product.Description</p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-md-6 col-lg-6 p-0 d-flex justify-content-start">
+                                                        <small class="text-muted pl-2"><span>Available: </span><span>@product.AvailableQuantity</span></small>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 col-lg-6 p-0 d-flex justify-content-end">
+                                                        <small class="text-muted pr-2"><span>Price: </span><span>@ViewData["CurrencySymbol"] @product.FormattedPublishedPrice</span></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            @await RenderSectionAsync("BodyContentProducts", required: false)
+                        }
+
+                    </div>
+                    <!-- /.col-lg-9 -->
+
+                </div>
+                <!-- /.row -->
+
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - CASHONE CART
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/knockoutjs/3.5.1/Content/Scripts/knockout-3.5.1.js"></script>
+    <script src="~/lib/knockout.validation/2.0.4/content/Scripts/knockout.validation.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/windntrees.core/1.1.6/windntrees-130.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/model/Cart.js"></script>
+    <script src="~/model/CartItem.js"></script>
+
+    <script type="text/javascript">
+        var layoutView = new CRUDView({
+            'key': 'layout-view',
+            'uri': '/cart', //service uri address
+            'observer': new CRUDObserver({ 'contentType': new CartItem({}), 'messages': new MessageRepository({ fill: true }) }),
+            'views': new ListObserver({ object: new ObjectObserver({}) }) //listobserver and object observer hosts referenced views
+        });
+
+        layoutView.getObserverObject().Cart = ko.observable(new Cart({}));
+        layoutView.getObserverObject().CartCount = ko.observable(0);
+        layoutView.getObserverObject().CartClass = ko.observable("fa fa-shopping-cart fa-3x fa-color-empty-cart");
+
+        layoutView.getObserverObject().CurrencySymbol = ko.observable('@ViewData["CurrencySymbol"]');
+
+        layoutView.getObserverObject().GetCartCount = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+                if (eventData.data !== null && eventData.data !== undefined) {
+
+                    if (eventData.data.action !== null && eventData.data.action !== undefined) {
+
+                        if (eventData.data.action !== 'GetCartCount') {
+
+                            new ObjectView({ 'uri': '/cart' })
+                                .read({
+                                    target: 'GetCartCount',
+                                    key: null,
+                                    callback: function (data) {
+
+                                        try {
+
+                                            layoutView.getObserverObject().CartCount(parseInt(data));
+
+                                            if (layoutView.getObserverObject().CartCount() > 0) {
+
+                                                layoutView.getObserverObject().CartClass("fa fa-shopping-cart fa-3x fa-color-item-cart");
+                                            }
+                                            else {
+
+                                                layoutView.getObserverObject().CartClass("fa fa-shopping-cart fa-3x fa-color-empty-cart");
+                                            }
+                                        }
+                                        catch (e) {
+                                            console.log(e.message);
+                                        }
+                                    }
+                                });
+                        }
+                    }
+                }
+            }
+        };
+
+        layoutView.getObserverObject().AddCartItem = function (cartItem) {
+
+            if (cartItem.Quantity() <= cartItem.AvailableQuantity()) {
+
+                layoutView.create({ content: cartItem });
+            }
+            else {
+
+                alert('Cart quantity must not exceed available quantity.');
+            }
+        };
+
+        layoutView.getObserverObject().UpdateCartItem = function (cartItem) {
+
+            if (cartItem.Quantity() <= cartItem.AvailableQuantity()) {
+
+                layoutView.update({ content: cartItem });
+            }
+            else {
+
+                alert('Cart quantity must not exceed available quantity.');
+            }
+        };
+
+        layoutView.getObserverObject().RemoveCartItem = function (cartItem) {
+
+            layoutView.delete({ content: cartItem });
+        };
+
+        layoutView.getObserverObject().GetCart = function (id) {
+            //id is always null
+            layoutView.read({
+                target: 'GetCart',
+                key: id,
+                contentType: new Cart({}),
+                callback: function (result) {
+
+                    layoutView.getObserverObject().Cart(result);
+                }
+            });
+        };
+
+        layoutView.getObserverObject().UpdateCart = function (cart) {
+
+            layoutView.update({
+                target: 'UpdateCart',
+                content: cart,
+                contentType: new Cart({}),
+                callback: function (result) {
+
+                    layoutView.getObserverObject().Cart(result);
+                }
+            });
+        };
+
+        layoutView.getObserverObject().EmptyCart = function () {
+
+            var cartObjectType = layoutView.extendContentMethods({ contentType: new Cart({}) });
+
+            layoutView.update({
+                target: 'EmptyCart',
+                content: layoutView.getObserverObject().Cart(),
+                contentType: cartObjectType,
+                callback: function (result) {
+
+                    layoutView.getObserverObject().Cart(result);
+                    layoutView.list(1);
+                }
+            });
+        };
+
+        layoutView.subscribeEvent('record.before.rendering.view.CRUD.WindnTrees', layoutView.getObserverObject().GetCartCount);
+
+        $(function () {
+
+            try {
+                ko.validation.init({ insertMessages: false, decorateElement: true, errorElementClass: 'error' });
+                ko.validation.registerExtenders();
+
+                ko.applyBindings(layoutView.getObserverObject(), (document.getElementsByTagName("body"))[0]);
+
+                new ObjectView({ 'uri': '/cart' })
+                    .read({
+                        target: 'GetCartCount',
+                        key: null,
+                        callback: function (data) {
+
+                            try {
+
+                                layoutView.getObserverObject().CartCount(parseInt(data));
+
+                                if (layoutView.getObserverObject().CartCount() > 0) {
+
+                                    layoutView.getObserverObject().CartClass("fa fa-shopping-cart fa-3x fa-color-item-cart");
+                                }
+                                else {
+
+                                    layoutView.getObserverObject().CartClass("fa fa-shopping-cart fa-3x fa-color-empty-cart");
+                                }
+                            }
+                            catch (e) {
+                                console.log(e.message);
+                            }
+                        }
+                    });
+            }
+            catch (e) {
+
+                console.log(e.message);
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,221 @@
+﻿@model Application.Models.TopViewModel
+@{
+    ViewData["Title"] = "Stock Listing Page";
+}
+
+@section ColumnContentTitle {
+    <h1 class="my-4">Store</h1>
+}
+
+@section Carousel {
+
+} 
+
+<div class="row m-0 pt-2 pb-4" data-bind="with: getReferentialView('product-view').getObserverObject()">
+    <div class="card container p-0">
+        <div class="card-header table-result-message">
+            <span data-bind="visible: getProcessing()"><i class="fa fa-cog fa-spin fa-1x"></i></span>
+            <span data-bind="if: getResultMessage().length > 0"><span data-bind="text: getResultMessage()"></span></span>
+            <span data-bind="if: $root.getReferentialView('product-view').getObserverObject().DisplayCartLink()"><a class="pl-1" href="/cart/index" title="Visit Cart Page">[Visit Cart Page]</a></span>
+            <div data-bind="if: getErrors().length > 0">
+                <ul class="errorlist p-0" data-bind="foreach: { data: getObservableErrors(), as: 'error' }">
+                    <li><span data-bind="text: errMessage"></span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class='col-sm-12 col-md-12 col-lg-12'>
+                    <div class='input-group'>
+                        <input class='form-control' data-bind='value: Keyword' type='text' placeholder='Keyword' />
+                        <span class='input-group-append'>
+                            <select data-bind="options: $root.getReferentialView('product-view').getObserverObject().CategoriesList, optionsText: 'key', optionsValue: 'val', value: $root.getReferentialView('product-view').getObserverObject().Category, optionsCaption: 'select category'" title="Select Category"
+                                    id="searchCategory" class="form-control col-12"></select>
+                        </span>
+                        <span class='input-group-append'>
+                            <button data-bind='click: function() { search(1); }' class='btn btn-primary' type='button' title='Search'><span>Search</span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-style-simple">
+                    <tr>
+                        <th class="col-sm-12 col-md-2 col-lg-2">
+                            <span title="Product">Product</span>
+                        </th>
+                        <th class="col-sm-12 col-md-3 col-lg-3">
+                            <span title="Code & Title">Code &amp; Title</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2 text-center">
+                            <span title="Available Quantity">Quantity</span>
+                        </th>
+                        <th class="col-sm-12 col-md-1 col-lg-1 text-right">
+                            <span title="Price">Price</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2">
+                            <span title="Cart Quantity">Cart Quantity</span>
+                        </th>
+                        <th class="col-sm-12 col-md-2 col-lg-2"></th>
+                    </tr>
+                    <tbody data-bind="foreach: { data: getObservableRecords(), as: 'record' }">
+                        <tr>
+                            <td><a href="#" data-bind="attr: { href: '/home/product/' + Code() }"><img class="img-fluid store-grid-picture" data-bind="attr: { src: PicturePath(), title: Code() + ' - ' + Name() }" /></a></td>
+                            <td class="pt-4" data-bind="text: Code() + ' - ' + Name()"></td>
+                            <td class="pt-4 text-center" data-bind="text: AvailableQuantity()"></td>
+                            <td class="pt-4 text-right" data-bind="text: $root.getReferentialView('product-view').getObserverObject().CurrencySymbol() + ((SalesPrice() === null || SalesPrice() === undefined) ? '0.00' : SalesPrice().toFixed(2)) "></td>
+                            <td><input class="form-control col-12 text-right" type="text" title="Enter cart quantity" data-bind="value: CartQuantity" maxlength="7" /></td>
+                            <td class="pr-0">
+                                <div class="row m-0">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 m-0 p-1 d-flex justify-content-end">
+                                        <button class="btn btn-secondary btn-sm" data-bind="click: function(data, event) { $parents[0].AddToCart(data); }">add to cart</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start order-0">
+                    <div class="input-group">
+                        <span class="input-group-prepend">
+                            <span class="input-group-text table-list-size-label">List Size</span>
+                        </span>
+                        <select class="form-control col-2 p-0" data-bind="value: getObservableListSize(), event: {change: function() { $parents[0].search(1); }}" style="width:auto;">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end order-1">
+                    <div class="input-group" data-bind="if: getListNavigator().calculateTotalPages() > 1">
+                        <nav class="d-flex justify-content-end" aria-label="Listings">
+                            <ul class="pagination">
+                                <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { search(CurrentList() - 1); }">Previous</a></li>
+                                <!-- ko foreach: ListNavigator().getLists() -->
+                                <li class="page-item">
+                                    <a class="page-link" href="#" data-bind="click: function() { search(Number); }"><span data-bind="text: Number"></span></a>
+                                </li>
+                                <!-- /ko -->
+                                <li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { search(CurrentList() + 1); }">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript" src="~/model/Product.js"></script>
+
+    <script type="text/javascript">
+        var productView = new CRUDView({
+            'key': 'product-view',
+            'uri': '/product', //service uri address
+            'observer': new CRUDObserver({ 'contentType': new Product({}), 'messages': new MessageRepository({ fill: true }) }),
+            'fields': [ // related list fields that load related results simply
+                {
+                    'uri': '/category', // server side CRUDController uri address
+                    'target': 'List', // CRUDController function that you want to invoke to get list results
+                    'field': 'CategoriesList', // CRUDObserver will be extended with Categories list observable (ko.observableArray)
+                    'key': 'Name', // key (display) field bound with dropdown list
+                    'value': 'Tag' // value field bound with dropdown list
+                }]
+        });
+
+        productView.getObserverObject().CurrencySymbol = ko.observable('@ViewData["CurrencySymbol"]');
+        productView.getObserverObject().DisplayCartLink = ko.observable(false);
+
+        //extend view with category and skilllevel observables
+        productView.getObserverObject().Category = ko.observable("");
+
+        productView.getObserverObject().search = function (listNumber) {
+
+            productView.list({
+                __target: 'GetProductsWithQuantity',
+                query: {
+                    key: productView.getObserverObject().Category(),
+                    keyword: productView.getObserverObject().getKeyword(),
+                    page: listNumber,
+                    size: productView.getObserverObject().ListSize()
+                }
+            });
+        };
+
+        productView.getObserverObject().AddToCart = function (product) {
+
+            if (product.CartQuantity() <= product.AvailableQuantity()) {
+
+                if (confirm('Are you sure to place product in cart?')) {
+
+                    layoutView.getObserverObject().AddCartItem(new CartItem({
+                        Uid: product.Uid(),
+                        OrderId: null,
+                        ItemId: product.Uid(),
+                        ItemName: product.Name(),
+                        ItemCode: product.Code(),
+                        AvailableQuantity: product.AvailableQuantity(),
+                        Quantity: product.CartQuantity(),
+                        Cost: product.SalesPrice(),
+                        Discount: product.Discount()
+                    }));
+                }
+            }
+            else {
+
+                alert("Ordered cart quantity is not in stock. Please correct your input or email for larger quantities.");
+            }
+        };
+
+        productView.getObserverObject().OnCartItem = function (event, eventData) {
+
+            if (eventData !== null && eventData !== undefined) {
+                if (eventData.data !== null && eventData.data !== undefined) {
+
+                    if (eventData.data.action !== null && eventData.data.action !== undefined) {
+
+                        if (eventData.data.action === 'create') {
+
+                            productView.getObserverObject().setErrors([]);
+                            productView.getObserverObject().ResultMessage("Product placed in cart successfully.");
+                            productView.getObserverObject().DisplayCartLink(true);
+                        }
+                    }
+                }
+            }
+        };
+
+        productView.getObserverObject().OnErrors = function (event, eventData) {
+            
+            productView.getObserverObject().setErrors(eventData.result);
+        };
+
+        productView.ExtendFields();
+        layoutView.getReferentialViews().newItem({ 'object': productView });
+        layoutView.subscribeEvent('record.before.rendering.view.CRUD.WindnTrees', productView.getObserverObject().OnCartItem);
+        layoutView.subscribeEvent('errors.after.rendering.view.CRUD.WindnTrees', productView.getObserverObject().OnErrors);
+
+        $(function () {
+
+            try {
+
+                productView.LoadFields();
+                productView.getObserverObject().search(1);
+            }
+            catch (e) {
+
+                console.log(e.message);
+            }
+        });
+
+    </script>
+}

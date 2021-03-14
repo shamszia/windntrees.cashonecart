@@ -1,0 +1,44 @@
+﻿@model Application.Models.Cart.OrderResultViewModel
+
+@{
+    Layout = "_LayoutReport";
+}
+
+@section Carousel {
+
+}
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <h1>Verify Identity</h1>
+        <h6>Order No. @ViewData["OrderNo"]</h6>
+        <p>@ViewData["OrderResultMessage"]</p>
+        <p>Confirm your identity before accessing order details.</p>
+    </div>
+</div>
+
+<form method="post" action="/order/result" class="col-sm-12 col-md-4 col-lg-4 m-auto">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 order-0">
+            <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="key">
+                Order No:
+            </label>
+            <input class="form-control col-12" id="key" name="key" type="text" title="Order Title" value="@ViewData["OrderNo"]"
+                   maxlength="10" placeholder="" required />
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 order-1">
+            <label class="control-label form-text text-muted m-0 p-1 d-flex align-content-start" for="keyword">
+                Secret Word:
+            </label>
+            <input class="form-control col-12" id="keyword" name="keyword" type="password" title="Secret Word"
+                   maxlength="20" placeholder="" required />
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 order-2">
+            <button class="btn btn-primary mt-1" type="submit" value="Submit" title="Submit">Submit</button>
+        </div>
+    </div>
+</form>
+
+@section BodyContentProducts {
+}

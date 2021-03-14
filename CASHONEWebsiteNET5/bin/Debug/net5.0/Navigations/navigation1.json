@@ -1,0 +1,85 @@
+﻿{
+  "authenticationMode": true,
+  "version": "4.0",
+  "cssClass": "container-fluid d-flex justify-content-start p-0",
+  "tag": "ul",
+  "attributes": [
+    {
+      "name": "class",
+      "value": "navbar-nav"
+    }
+  ],
+  "roles": [ "anonymous" ],
+  "items": [
+    {
+      "text": "Home",
+      "linkUrl": "/home/index",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Home"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Store",
+      "linkUrl": "/product/index",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Store"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Favourite",
+      "linkUrl": "/product/favourite",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Favourite Products"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Top Products",
+      "linkUrl": "/product/top",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Top Products"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    },
+    {
+      "text": "Discount",
+      "linkUrl": "/product/discount",
+      "linkAttributes": [
+        {
+          "name": "title",
+          "value": "Discount Products"
+        },
+        {
+          "name": "class",
+          "value": "nav-link"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+﻿body {
+}
+
+.cashone-img-width-1000 {
+    width: 1000px;
+}
+
+.error {
+    color: #ff0000;
+}
+
+.errorlist {
+    list-style: none;
+}
+    .errorlist li {
+        color: #ff0000;
+        margin-left: 0px;
+    }
+
+.fa-color-empty-cart {
+    color: #CCC;
+}
+
+.fa-color-item-cart {
+    color: #10dc20;
+}
+
+.nav-link {
+    text-transform: uppercase;
+}
+
+.product-description {
+    min-height: 200px;
+}
+
+.product-picture {
+    width: unset !important;
+    height: 100px;
+}
+
+.store-grid-picture {
+    height: 60px;
+}
+
+.table-style-simple {
+    font-size: 0.8rem;
+}
+
+.table-result-message {
+    font-size: 0.9rem;
+}
+
+.table-list-size-label {
+    font-size: 0.9rem;
+}
+
+.table-style-simple tbody tr td {
+    margin: 0px;
+}
