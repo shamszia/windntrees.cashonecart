@@ -27,6 +27,8 @@ namespace DataAccessNET5.Models
         [Column("UserID")]
         [StringLength(450)]
         public string UserId { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? RegistrationTime { get; set; }
         public byte[] RowVersion { get; set; }
 
         [InverseProperty(nameof(Expense.ExpenseNavigation))]

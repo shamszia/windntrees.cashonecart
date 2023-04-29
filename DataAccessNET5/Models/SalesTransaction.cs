@@ -41,6 +41,25 @@ namespace DataAccessNET5.Models
         public decimal? DiscountAmount { get; set; }
         public bool? Credit { get; set; }
         public byte[] RowVersion { get; set; }
+        [StringLength(100)]
+        public string IntegrationNumber1 { get; set; }
+        [StringLength(100)]
+        public string IntegrationNumber2 { get; set; }
+        [StringLength(100)]
+        public string IntegrationMessage { get; set; }
+        [StringLength(100)]
+        public string IntegrationError { get; set; }
+        [StringLength(100)]
+        public string TaxNumber { get; set; }
+        [Column(TypeName = "money")]
+        public decimal? OtherTax { get; set; }
+        [StringLength(1)]
+        public string PaymentMode { get; set; }
+        [StringLength(1)]
+        public string InvoiceType { get; set; }
+        [Column("ReferenceID")]
+        [StringLength(100)]
+        public string ReferenceId { get; set; }
 
         [ForeignKey(nameof(BuyerId))]
         [InverseProperty(nameof(Company.SalesTransactions))]

@@ -51,6 +51,8 @@ namespace DataAccessNET5.Models
         public string SecretWord { get; set; }
         [StringLength(10)]
         public string PostalCode { get; set; }
+        [StringLength(1000)]
+        public string Remarks { get; set; }
 
         [InverseProperty(nameof(OrderItem.Order))]
         public virtual ICollection<OrderItem> OrderItems { get; set; }

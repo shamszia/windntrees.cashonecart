@@ -208,7 +208,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-footer">
+        <!--<div class="card-footer">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start order-0">
                     <div class="input-group">
@@ -227,19 +227,19 @@
                     <div class="input-group" data-bind="if: getListNavigator().calculateTotalPages() > 1">
                         <nav class="d-flex justify-content-end" aria-label="Listings">
                             <ul class="pagination">
-                                <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() - 1); }">Previous</a></li>
+                                <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() - 1); }">Previous</a></li>-->
                                 <!-- ko foreach: ListNavigator().getLists() -->
-                                <li class="page-item">
+                                <!--<li class="page-item">
                                     <a class="page-link" href="#" data-bind="click: function() { list(Number); }"><span data-bind="text: Number"></span></a>
-                                </li>
+                                </li>-->
                                 <!-- /ko -->
-                                <li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() + 1); }">Next</a></li>
+                                <!--<li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() + 1); }">Next</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 
@@ -373,12 +373,16 @@
 
                         if (layoutView.getObserverObject().Records().length > 0) {
 
+                            layoutView.getObserverObject().ResultMessage("Following Order Items Found.");
+
                             layoutView.getObserverObject().PlaceOrderAction(true);
                             layoutView.getObserverObject().EmptyCartAction(true);
 
                             layoutView.getObserverObject().CalculateGrandTotal();
                         }
                         else {
+
+                            layoutView.getObserverObject().ResultMessage("No Order Items Found.");
 
                             layoutView.getObserverObject().PlaceOrderAction(false);
                             layoutView.getObserverObject().EmptyCartAction(false);

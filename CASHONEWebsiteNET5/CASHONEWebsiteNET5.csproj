@@ -6,6 +6,8 @@
     <RootNamespace>Application</RootNamespace>
 
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+
+    <UserSecretsId>1485fd8e-9d47-45e9-9b5d-b01b00351d8d</UserSecretsId>
   </PropertyGroup>
   
   

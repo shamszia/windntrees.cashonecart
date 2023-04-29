@@ -45,6 +45,8 @@ namespace DataAccessNET5.Models
         [Column(TypeName = "money")]
         public decimal? IncomeTax { get; set; }
         public byte[] RowVersion { get; set; }
+        [Column(TypeName = "money")]
+        public decimal? SalesTax { get; set; }
 
         [ForeignKey(nameof(PlaceId))]
         [InverseProperty("StockPurchaseds")]

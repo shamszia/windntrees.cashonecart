@@ -64,6 +64,11 @@ namespace DataAccessNET5.Models
         public bool? Published { get; set; }
         public bool? Top { get; set; }
         public bool? Favourite { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? RegistrationTime { get; set; }
+        public double? FurtherTax { get; set; }
+        public double? SalesTaxRate { get; set; }
+        public double? IncomeTaxRate { get; set; }
 
         [InverseProperty(nameof(OrderItem.Item))]
         public virtual ICollection<OrderItem> OrderItems { get; set; }

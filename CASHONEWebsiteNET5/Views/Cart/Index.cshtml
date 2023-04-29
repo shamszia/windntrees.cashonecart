@@ -91,14 +91,15 @@
                 <h4 data-bind="text: '(Total Discount= ' + $root.CurrencySymbol() + $root.DiscountTotal().toFixed(2) + ')'"></h4>
             </div>
         </div>
-        <div class="card-footer">
+        @*<div class="card-footer">
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-start order-0">
-                    <div class="input-group">
+                <div class="col-sm-12 col-md-6 col-lg-6 order-0">
+                    <div class="input-group d-flex justify-content-start ">
                         <span class="input-group-prepend">
                             <span class="input-group-text table-list-size-label">List Size</span>
                         </span>
-                        <select class="form-control col-2 p-0" data-bind="value: getObservableListSize(), event: {change: function() { $parents[0].list(1); }}" style="width:auto;">
+
+                        <select class="form-control col-2 p-0" data-bind="value: ListSize" style="width:auto;">
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>
@@ -106,23 +107,23 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-6 d-flex justify-content-end order-1">
-                    <div class="input-group" data-bind="if: getListNavigator().calculateTotalPages() > 1">
+                <div class="col-sm-12 col-md-6 col-lg-6 order-1">
+                    <div class="input-group d-flex justify-content-end" data-bind="if: getListNavigator().calculateTotalPages() > 1">
                         <nav class="d-flex justify-content-end" aria-label="Listings">
                             <ul class="pagination">
                                 <li class="page-item disabled" data-bind="css: {disabled: CurrentList() == 1}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() - 1); }">Previous</a></li>
-                                <!-- ko foreach: ListNavigator().getLists() -->
+                                 ko foreach: ListNavigator().getLists() 
                                 <li class="page-item">
-                                    <a class="page-link" href="#" data-bind="click: function() { list(Number); }"><span data-bind="text: Number"></span></a>
+                                    <a class="page-link" href="#" data-bind="click: function() { $parent.list(Number); }"><span data-bind="text: Number"></span></a>
                                 </li>
-                                <!-- /ko -->
+                                 /ko 
                                 <li class="page-item" data-bind="css: {disabled: CurrentList() == ListNavigator().calculateTotalPages()}"><a class="page-link" href="#" data-bind="click: function() { list(CurrentList() + 1); }">Next</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
 

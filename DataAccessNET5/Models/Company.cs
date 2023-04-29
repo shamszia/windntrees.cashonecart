@@ -57,6 +57,8 @@ namespace DataAccessNET5.Models
         public string State { get; set; }
         [StringLength(10)]
         public string PostalCode { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? RegistrationTime { get; set; }
 
         [InverseProperty(nameof(SalesTransaction.Buyer))]
         public virtual ICollection<SalesTransaction> SalesTransactions { get; set; }

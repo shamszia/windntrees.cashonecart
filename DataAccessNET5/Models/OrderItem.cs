@@ -30,6 +30,8 @@ namespace DataAccessNET5.Models
         [Column(TypeName = "money")]
         public decimal? Discount { get; set; }
         public byte[] RowVersion { get; set; }
+        [StringLength(100)]
+        public string Description { get; set; }
 
         [ForeignKey(nameof(ItemId))]
         [InverseProperty(nameof(Product.OrderItems))]

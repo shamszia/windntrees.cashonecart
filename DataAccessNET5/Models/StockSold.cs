@@ -45,6 +45,20 @@ namespace DataAccessNET5.Models
         [Column(TypeName = "money")]
         public decimal? SalesTax { get; set; }
         public byte[] RowVersion { get; set; }
+        public int? OpenQuantity { get; set; }
+        public int? PackQuantity { get; set; }
+        public double? Discount { get; set; }
+        public double? OtherTax { get; set; }
+        [Column("ReferenceID")]
+        [StringLength(100)]
+        public string ReferenceId { get; set; }
+        [StringLength(100)]
+        public string InventoryCode { get; set; }
+        [StringLength(100)]
+        public string LegalCode { get; set; }
+        [Column(TypeName = "money")]
+        public decimal? IncomeTax { get; set; }
+        public double? TaxRate { get; set; }
 
         [ForeignKey(nameof(PlaceId))]
         [InverseProperty("StockSolds")]
